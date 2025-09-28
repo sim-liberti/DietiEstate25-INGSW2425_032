@@ -152,7 +152,7 @@ public class UserController(
             return NotFound();
         
         await userRepository.DeleteUserAsync(user);
-        return NoContent();   
+        return NoContent();
     }
 
     [HttpPut("change-password")]
