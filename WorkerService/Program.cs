@@ -1,7 +1,39 @@
-using WorkerService;
+using DietiEstate.Shared.Enums;
+using DietiEstate.WorkerService.Data;
+using Microsoft.EntityFrameworkCore;
+using DotNetEnv;
 
-var builder = Host.CreateApplicationBuilder(args);
-builder.Services.AddHostedService<Worker>();
+namespace DietiEstate.WorkerService;
 
-var host = builder.Build();
-host.Run();
+public static class Program
+{
+    public static async Task Main(string[] args)
+    {
+        Env.Load();
+        var builder = Host.CreateApplicationBuilder(args);
+        ConfigureServices(builder);
+        builder.Services.AddHostedService<Worker>();
+
+        var host = builder.Build();
+        await host.RunAsync();
+    }
+
+    private static void ConfigureServices(HostApplicationBuilder builder)
+    {
+        builder.Services.AddDbContext<DietiEstateDbContext>(options =>
+        {
+            options.UseNpgsql(Environment.GetEnvironmentVariable("CONNECTION_STRING"), dboptions =>
+            {
+                dboptions.MapEnum<WorkItemStatus>("work_item_status")
+                    .EnableRetryOnFailure();
+                dboptions.MapEnum<WorkItemType>("work_item_type")
+                    .EnableRetryOnFailure();
+                dboptions.EnableRetryOnFailure(0);
+            });
+        }, ServiceLifetime.Transient);
+    }
+}
+
+
+
+

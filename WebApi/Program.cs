@@ -44,6 +44,10 @@ public static class Program
             {
                 dboptions.MapEnum<UserRole>("user_role")
                     .EnableRetryOnFailure();
+                dboptions.MapEnum<WorkItemStatus>("work_item_status")
+                    .EnableRetryOnFailure();
+                dboptions.MapEnum<WorkItemType>("work_item_type")
+                    .EnableRetryOnFailure();
                 dboptions.EnableRetryOnFailure(0);
             });
         }, ServiceLifetime.Transient);

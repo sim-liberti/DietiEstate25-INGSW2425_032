@@ -1,3 +1,4 @@
+using DietiEstate.Shared.Models;
 using DietiEstate.Shared.Models.ListingModels;
 using DietiEstate.Shared.Models.Shared;
 using DietiEstate.Shared.Models.UserModels;
@@ -59,6 +60,11 @@ public class DietiEstateDbContext(DbContextOptions<DietiEstateDbContext> options
     /// Gets or sets the DbSet for managing <see cref="UserVerification"/> entities.
     /// </summary>
     public virtual DbSet<UserVerification> UserVerification { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the DbSet for managing <see cref="WorkItem"/> entities.
+    /// </summary>
+    public virtual DbSet<WorkItem> WorkItem { get; set; }
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
