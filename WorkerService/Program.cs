@@ -1,5 +1,7 @@
 using DietiEstate.Shared.Enums;
 using DietiEstate.WorkerService.Data;
+using DietiEstate.WorkerService.Repositories.Implementations;
+using DietiEstate.WorkerService.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using DotNetEnv;
 
@@ -31,6 +33,8 @@ public static class Program
                 dboptions.EnableRetryOnFailure(0);
             });
         }, ServiceLifetime.Transient);
+
+        builder.Services.AddScoped<IWorkItemRepository, WorkItemRepository>();
     }
 }
 
