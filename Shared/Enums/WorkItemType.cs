@@ -2,5 +2,7 @@ namespace DietiEstate.Shared.Enums;
 
 public enum WorkItemType
 {
-    Email
+    SendEmail,
+    Cleanup,
+    Report
 }

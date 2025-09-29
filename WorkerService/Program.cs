@@ -1,7 +1,8 @@
 using DietiEstate.Shared.Enums;
 using DietiEstate.WorkerService.Data;
-using DietiEstate.WorkerService.Repositories.Implementations;
-using DietiEstate.WorkerService.Repositories.Interfaces;
+using DietiEstate.WorkerService.Repositories;
+using DietiEstate.WorkerService.Services;
+using DietiEstate.WorkerService.Workers;
 using Microsoft.EntityFrameworkCore;
 using DotNetEnv;
 
@@ -14,7 +15,7 @@ public static class Program
         Env.Load();
         var builder = Host.CreateApplicationBuilder(args);
         ConfigureServices(builder);
-        builder.Services.AddHostedService<Worker>();
+        builder.Services.AddHostedService<JobProcessorWorker>();
 
         var host = builder.Build();
         await host.RunAsync();
@@ -35,6 +36,9 @@ public static class Program
         }, ServiceLifetime.Transient);
 
         builder.Services.AddScoped<IWorkItemRepository, WorkItemRepository>();
+        builder.Services.AddScoped<IJobService, JobService>();
+        builder.Services.AddScoped<IEmailService, EmailService>();
+        
     }
 }
 

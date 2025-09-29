@@ -21,5 +21,11 @@ public class WorkItem
     public DateTime ScheduledAt { get; set; }
     
     [Required]
-    public DateTime CreatedAt { get; set; }
+    public DateTime StartedAt { get; set; }
+    
+    [Required]
+    public DateTime CompletedAt { get; set; }
+    
+    [Required]
+    public string ErrorMessage { get; set; } = string.Empty;
 }

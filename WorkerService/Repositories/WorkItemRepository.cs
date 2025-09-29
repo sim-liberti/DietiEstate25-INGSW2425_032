@@ -1,11 +1,11 @@
 using DietiEstate.Shared.Dtos.Filters;
+using DietiEstate.Shared.Enums;
 using DietiEstate.Shared.Models;
 using DietiEstate.WorkerService.Data;
 using DietiEstate.WorkerService.Extensions;
-using DietiEstate.WorkerService.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace DietiEstate.WorkerService.Repositories.Implementations;
+namespace DietiEstate.WorkerService.Repositories;
 
 public class WorkItemRepository(DietiEstateDbContext context) : IWorkItemRepository
 {
@@ -17,6 +17,13 @@ public class WorkItemRepository(DietiEstateDbContext context) : IWorkItemReposit
             .ToListAsync();
     }
 
+    public async Task<IEnumerable<WorkItem>> GetPendingWorkItemsAsync(CancellationToken cancellationToken)
+    {
+        return await context.WorkItem
+            .Where(wi => wi.Status == WorkItemStatus.Pending && wi.ScheduledAt <= DateTime.UtcNow)
+            .ToListAsync(cancellationToken);
+    }
+    
     public async Task<WorkItem?> GetWorkItemByIdAsync(Guid workItemId)
     {
         return await context.WorkItem.FindAsync(workItemId);

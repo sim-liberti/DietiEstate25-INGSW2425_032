@@ -2,8 +2,8 @@ namespace DietiEstate.Shared.Enums;
 
 public enum WorkItemStatus
 {
-    NotStarted,
-    InProgress,
+    Pending,
+    Processing,
     Completed,
     Failed
 }
