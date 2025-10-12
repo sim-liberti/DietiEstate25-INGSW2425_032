@@ -1,10 +1,10 @@
 using DietiEstate.WorkerService.Repositories;
 using DietiEstate.WorkerService.Services;
 
-namespace DietiEstate.WorkerService.Workers;
+namespace DietiEstate.WorkerService;
 
-public class JobProcessorWorker(
-    ILogger<JobProcessorWorker> logger,
+public class Worker(
+    ILogger<Worker> logger,
     IServiceScopeFactory scopeFactory
     ) : BackgroundService
 {

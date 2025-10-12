@@ -2,7 +2,6 @@ using DietiEstate.Shared.Enums;
 using DietiEstate.WorkerService.Data;
 using DietiEstate.WorkerService.Repositories;
 using DietiEstate.WorkerService.Services;
-using DietiEstate.WorkerService.Workers;
 using Microsoft.EntityFrameworkCore;
 using DotNetEnv;
 
@@ -15,7 +14,7 @@ public static class Program
         Env.Load();
         var builder = Host.CreateApplicationBuilder(args);
         ConfigureServices(builder);
-        builder.Services.AddHostedService<JobProcessorWorker>();
+        builder.Services.AddHostedService<Worker>();
 
         var host = builder.Build();
         await host.RunAsync();
