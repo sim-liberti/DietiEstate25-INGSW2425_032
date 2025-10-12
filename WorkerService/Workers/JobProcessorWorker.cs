@@ -5,9 +5,7 @@ namespace DietiEstate.WorkerService.Workers;
 
 public class JobProcessorWorker(
     ILogger<JobProcessorWorker> logger,
-    IServiceScopeFactory scopeFactory,
-    IWorkItemRepository workItemRepository,
-    IJobService jobService
+    IServiceScopeFactory scopeFactory
     ) : BackgroundService
 {
     private readonly TimeSpan _interval = TimeSpan.FromMinutes(1);
@@ -33,6 +31,8 @@ public class JobProcessorWorker(
     private async Task ProcessJobsAsync(CancellationToken stoppingToken)
     {
         using var scope = scopeFactory.CreateScope();
+        var workItemRepository = scope.ServiceProvider.GetRequiredService<IWorkItemRepository>();
+        var jobService = scope.ServiceProvider.GetRequiredService<IJobService>();
         var pendingWorkItems = await workItemRepository.GetPendingWorkItemsAsync(stoppingToken);
 
         foreach (var workItem in pendingWorkItems)
@@ -41,19 +41,3 @@ public class JobProcessorWorker(
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -21,10 +21,13 @@ public class JobService(
             switch (workItem.Type)
             {
                 case WorkItemType.SendEmail:
+                    await emailService.SendEmailAsync(workItem.Data, stoppingToken);
                     break;
                 case WorkItemType.Cleanup:
+                    // TODO: Research which cleanup tasks to perform
                     break;
                 case WorkItemType.Report:
+                    // TODO: Implement report generation
                     break;
                 default:
                     throw new NotSupportedException($"Job type {workItem.Type} not supported");

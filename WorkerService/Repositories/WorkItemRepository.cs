@@ -19,6 +19,20 @@ public class WorkItemRepository(DietiEstateDbContext context) : IWorkItemReposit
 
     public async Task<IEnumerable<WorkItem>> GetPendingWorkItemsAsync(CancellationToken cancellationToken)
     {
+        // //// INFO: Temporary code to test email sending //// //
+        // var emailWorkItem = new WorkItem
+        // {
+        //     Type = WorkItemType.SendEmail,
+        //     Data = "This is a test email message from DietiEstate Worker Service.",
+        //     ScheduledAt = DateTime.UtcNow,
+        //     StartedAt = DateTime.UtcNow,
+        //     CompletedAt = DateTime.UtcNow,
+        //     Status = WorkItemStatus.Pending,
+        //     ErrorMessage = string.Empty
+        // };
+        // IEnumerable<WorkItem> workItems = new List<WorkItem> { emailWorkItem };
+        //
+        // return workItems;
         return await context.WorkItem
             .Where(wi => wi.Status == WorkItemStatus.Pending && wi.ScheduledAt <= DateTime.UtcNow)
             .ToListAsync(cancellationToken);
@@ -52,4 +66,5 @@ public class WorkItemRepository(DietiEstateDbContext context) : IWorkItemReposit
         await context.SaveChangesAsync();
         await context.Database.CommitTransactionAsync();
     }
+
 }

@@ -37,11 +37,7 @@ public static class Program
 
         builder.Services.AddScoped<IWorkItemRepository, WorkItemRepository>();
         builder.Services.AddScoped<IJobService, JobService>();
-        builder.Services.AddScoped<IEmailService, EmailService>();
+        builder.Services.AddSingleton<IEmailService, EmailService>();
         
     }
 }
-
-
-
-
